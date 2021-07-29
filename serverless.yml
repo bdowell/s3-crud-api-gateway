@@ -57,7 +57,19 @@ functions:
         Action:
           - "s3:DeleteObject"
         Resource: arn:aws:s3:::${self:custom.fileBucketName}/*
-
+  s3FileDetails:
+    handler: src/details.handler
+    name: s3-file-details
+    description: A lamda handler that will return the details of a file
+    events:
+      - http:
+          path: file/details/{fileKey}
+          method: GET
+    iamRoleStatements:
+      - Effect: Allow
+        Action:
+          - "s3:Get*"
+        Resource: arn:aws:s3:::${self:custom.fileBucketName}/*
 resources:
   Resources:
     FileBucket:
